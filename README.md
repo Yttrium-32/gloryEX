@@ -38,6 +38,7 @@ Ensure the backend is running locally then running the frontend is as simple as 
 ## Created for a college project by:
 - [Shresth Prasad](https://github.com/Yttrium-32)
 - [Rishabh kumar](https://github.com/rishabhkumar2004)
+- [Harshil Gupta](https://github.com/7390Harshil)
 
 ## Changes made by Harshil here
 - foo
