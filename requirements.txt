@@ -1,3 +1,4 @@
+# Api
 aiofiles==23.2.1
 annotated-types==0.6.0
 anyio==4.2.0
@@ -20,3 +21,9 @@ SQLAlchemy==2.0.25
 starlette==0.35.1
 typing_extensions==4.9.0
 uvicorn==0.26.0
+
+# Gui
+PySide6==6.6.1
+PySide6-Addons==6.6.1
+PySide6-Essentials==6.6.1
+shiboken6==6.6.1
