@@ -1,5 +1,5 @@
 from PySide6.QtCore import QSize, Qt
-from PySide6.QtGui import QPixmap
+from PySide6.QtGui import QIcon, QPixmap
 from PySide6.QtWidgets import QApplication, QHBoxLayout, QLabel, QSizePolicy, QVBoxLayout, QWidget
 
 from os import PathLike
@@ -24,6 +24,7 @@ class CardWidget(QWidget):
     def __init__(self, title: str, content: str) -> None:
         super().__init__()
         self.setWindowTitle("Text Card")
+        self.setWindowIcon(QIcon("../assets/logo_32x32.png"))
         self.setMinimumSize(QSize(300, 300))
         self.setMaximumSize(QSize(500, 500))
 
@@ -48,6 +49,7 @@ class CardImageWidget(QWidget):
     def __init__(self, title: str, content: str, image_path: PathLike):
         super().__init__()
         self.setWindowTitle("Text Card with Image")
+        self.setWindowIcon(QIcon("../assets/logo_32x32.png"))
         self.setMinimumSize(QSize(300, 300))
         self.setMaximumSize(QSize(500, 500))
 

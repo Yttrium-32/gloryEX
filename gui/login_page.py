@@ -1,5 +1,5 @@
 from PySide6.QtCore import QSize, Qt
-from PySide6.QtGui import QPixmap
+from PySide6.QtGui import QIcon, QPixmap
 from PySide6.QtWidgets import QApplication, QGridLayout, QLabel, QLineEdit, QSizePolicy, QVBoxLayout
 from PySide6.QtWidgets import QPushButton, QWidget, QHBoxLayout
 
@@ -35,6 +35,9 @@ class LoginPage(QWidget):
         super().__init__()
         self.setWindowTitle("Login Window")
         self.setMinimumSize(QSize(405, 250))
+        self.setMaximumSize(QSize(810, 500))
+        icon = QIcon(str(LOGO_PATH.resolve()))
+        self.setWindowIcon(icon)
 
         welcome_sign = QLabel("Welcome back!")
         welcome_sign.setMaximumHeight(50)
