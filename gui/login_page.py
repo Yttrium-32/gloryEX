@@ -93,6 +93,19 @@ class LoginPage(QWidget):
         password = self.password_input.text()
         username = self.username_input.text()
 
+        payload = {
+            "username": username,
+            "password": password
+        }
+
+        response = requests.post(API_URL + "/users/verify/", data=json.dumps(payload))
+        json_data = json.loads(response.text)
+        print(f"{json_data=}")
+
+        if json_data["detail"] == "Login success":
+            with open("token.txt", "w") as token_file:
+                token_file.write(username)
+
     def send_register_request(self):
         password = self.password_input.text()
         username = self.username_input.text()
@@ -104,7 +117,8 @@ class LoginPage(QWidget):
         }
 
         response = requests.post(API_URL + "/users/", data=json.dumps(payload))
-        print(response.json())
+        json_data = json.loads(response.text)
+        print(f"{json_data=}")
 
 
 if __name__ == "__main__":
