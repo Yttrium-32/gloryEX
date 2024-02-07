@@ -4,12 +4,15 @@ from PySide6.QtWidgets import QApplication, QGridLayout, QLabel, QLineEdit, QSiz
 from PySide6.QtWidgets import QPushButton, QWidget, QHBoxLayout
 
 from pathlib import Path
+from uuid import uuid4
 import requests, json
 
 if __name__ == "__main__":
     LOGO_PATH = Path("../assets/logo_128x128.png")
 else:
     LOGO_PATH = Path("assets/logo_128x128.png")
+
+API_URL = "http://0.0.0.0:8000"
 
 LOGO_STYLE = """
     padding: 30px;
@@ -62,6 +65,7 @@ class LoginPage(QWidget):
 
         register_button = QPushButton("Register")
         register_button.setStyleSheet(BUTTON_STYLE)
+        register_button.clicked.connect(self.send_register_request)
 
         logo_label = QLabel()
         logo_pixmap = QPixmap(LOGO_PATH.resolve())
@@ -92,6 +96,15 @@ class LoginPage(QWidget):
     def send_register_request(self):
         password = self.password_input.text()
         username = self.username_input.text()
+
+        payload = {
+            "username": username,
+            "email": f"mail-{uuid4()}@mail-server.org",
+            "password": password
+        }
+
+        response = requests.post(API_URL + "/users/", data=json.dumps(payload))
+        print(response.json())
 
 
 if __name__ == "__main__":
