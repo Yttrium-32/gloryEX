@@ -47,16 +47,17 @@ class LoginPage(QWidget):
         welcome_sign.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
         welcome_sign.setStyleSheet(WELCOME_SIGN_STYLE)
 
-        password_input = QLineEdit()
-        password_input.setPlaceholderText("Password")
-        password_input.setStyleSheet(INPUT_FIELD_STYLE)
+        self.username_input = QLineEdit()
+        self.username_input.setPlaceholderText("Username")
+        self.username_input.setStyleSheet(INPUT_FIELD_STYLE)
 
-        username_input = QLineEdit()
-        username_input.setPlaceholderText("Username")
-        username_input.setStyleSheet(INPUT_FIELD_STYLE)
+        self.password_input = QLineEdit()
+        self.password_input.setPlaceholderText("Password")
+        self.password_input.setStyleSheet(INPUT_FIELD_STYLE)
 
         login_button = QPushButton("Login")
         login_button.setStyleSheet(BUTTON_STYLE)
+        login_button.clicked.connect(self.send_login_request)
 
         register_button = QPushButton("Register")
         register_button.setStyleSheet(BUTTON_STYLE)
@@ -68,8 +69,8 @@ class LoginPage(QWidget):
         logo_label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
 
         login_layout = QGridLayout()
-        login_layout.addWidget(username_input, 0, 0, 1, 3)
-        login_layout.addWidget(password_input, 1, 0, 1, 3)
+        login_layout.addWidget(self.username_input, 0, 0, 1, 3)
+        login_layout.addWidget(self.password_input, 1, 0, 1, 3)
         login_layout.addWidget(login_button, 2, 0)
         login_layout.addWidget(register_button, 2, 2)
 
@@ -82,6 +83,10 @@ class LoginPage(QWidget):
         body_layout.addLayout(login_wlogo_layout)
 
         self.setLayout(body_layout)
+
+    def send_login_request(self):
+        password = self.password_input.text()
+        username = self.username_input.text()
 
 if __name__ == "__main__":
     app = QApplication()

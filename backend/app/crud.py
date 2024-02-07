@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 from argon2 import PasswordHasher
+from argon2.exceptions import VerifyMismatchError
 
 from . import models
 from .schema import users, skills
@@ -21,6 +22,17 @@ def create_user_skill(*, db: Session, skill: skills.SkillCreate, user_id: int, c
     db.refresh(db_skill)
     return db_skill
 
+def verify_user_login(*, db: Session, username: str, password: str):
+    user = db.query(models.Users).filter(models.Users.username == username).first()
+    hashed_password = user.password
+
+    try:
+        hasher.verify(hashed_password, password)
+    except VerifyMismatchError:
+        return False
+
+    return True
+
 def get_user_by_username(*, db: Session, username: str):
     return db.query(models.Users).filter(models.Users.username == username).first()
 
@@ -31,7 +43,7 @@ def get_user_by_id(*, db: Session, user_id: int):
     return db.query(models.Users).filter(models.Users.id == user_id).first()
 
 def get_user_id(*, db: Session, username: str):
-    user = db.query(models.Users).filter(models.Users).filter_by(username = username).first()
-    user_id: int = user.__dict__["id"]
+    user = db.query(models.Users).filter(models.Users).filter_by(username == username).first()
+    user_id: int = user.id
     return user_id
 
