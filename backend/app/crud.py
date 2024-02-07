@@ -33,6 +33,9 @@ def verify_user_login(*, db: Session, username: str, password: str):
 
     return True
 
+def get_skills_by_user_id(*, db: Session, user_id: int):
+    return db.query(models.Skills).filter(models.Skills.user_id == user_id).all()
+
 def get_user_by_username(*, db: Session, username: str):
     return db.query(models.Users).filter(models.Users.username == username).first()
 

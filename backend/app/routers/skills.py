@@ -49,3 +49,8 @@ def create_skill_for_user_using_id_wimage(
 
     return crud.create_user_skill(db=db, skill=skill, user_id=user_id, cert_image_path=gen_name)
 
+@router.get("/users/{user_id}/get_skill", response_model=list[SkillPublic], tags=["skills"])
+def get_skill_by_user_id(user_id: int, db: Session = Depends(get_db)):
+    skills = crud.get_skills_by_user_id(db=db, user_id=user_id)
+    return skills
+
