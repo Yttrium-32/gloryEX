@@ -1,6 +1,15 @@
+#!/bin/python
 from PySide6.QtCore import QSize, Qt
 from PySide6.QtGui import QAction, QIcon
-from PySide6.QtWidgets import QMainWindow, QToolBar
+from PySide6.QtWidgets import QApplication, QHBoxLayout, QMainWindow
+from PySide6.QtWidgets import QStackedWidget, QToolBar, QWidget
+
+try:
+    from gui.login_page import LoginPage
+    from gui.skills_page import SkillsPage
+except ImportError:
+    from login_page import LoginPage
+    from skills_page import SkillsPage
 
 from pathlib import Path
 
@@ -26,4 +35,27 @@ class MainWindow(QMainWindow):
         skills_page = QAction("Skills", self)
         tool_bar.addAction(skills_page)
 
+        login_widget = LoginPage()
+        skills_widget = SkillsPage()
+
+        stacked_widget = QStackedWidget()
+        stacked_widget.addWidget(login_widget)
+        stacked_widget.addWidget(skills_widget)
+
+        main_layout = QHBoxLayout()
+        main_layout.addWidget(stacked_widget)
+        main_layout.setAlignment(Qt.AlignCenter)
+
+        main_widget = QWidget()
+        main_widget.setLayout(main_layout)
+
+        self.setCentralWidget(main_widget)
+
+if __name__ == "__main__":
+    app = QApplication()
+
+    main_window = MainWindow(app)
+    main_window.show()
+
+    app.exec()
 

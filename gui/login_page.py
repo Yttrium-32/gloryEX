@@ -5,7 +5,10 @@ from PySide6.QtWidgets import QPushButton, QWidget, QHBoxLayout
 
 from pathlib import Path
 
-LOGO_PATH = Path("../assets/logo_128x128.png")
+if __name__ == "__main__":
+    LOGO_PATH = Path("../assets/logo_128x128.png")
+else:
+    LOGO_PATH = Path("assets/logo_128x128.png")
 
 LOGO_STYLE = """
     padding: 30px;
