@@ -4,6 +4,7 @@ from PySide6.QtWidgets import QApplication, QGridLayout, QLabel, QLineEdit, QSiz
 from PySide6.QtWidgets import QPushButton, QWidget, QHBoxLayout
 
 from pathlib import Path
+import requests, json
 
 if __name__ == "__main__":
     LOGO_PATH = Path("../assets/logo_128x128.png")
@@ -87,6 +88,11 @@ class LoginPage(QWidget):
     def send_login_request(self):
         password = self.password_input.text()
         username = self.username_input.text()
+
+    def send_register_request(self):
+        password = self.password_input.text()
+        username = self.username_input.text()
+
 
 if __name__ == "__main__":
     app = QApplication()
