@@ -15,3 +15,7 @@ class UserPublic(UserBase):
     class Config:
         from_attributes = True
 
+class UserRequestDetails(BaseModel):
+    username: str
+    password: str
+
