@@ -103,8 +103,8 @@ class LoginPage(QWidget):
         print(f"{json_data=}")
 
         if json_data["detail"] == "Login success":
-            with open("token.txt", "w") as token_file:
-                token_file.write(username)
+            with open("token.json", "w") as token_file:
+                json.dump(json_data, token_file)
 
     def send_register_request(self):
         password = self.password_input.text()
