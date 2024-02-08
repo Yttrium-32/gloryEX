@@ -1,6 +1,6 @@
 from PySide6.QtCore import QSize, Qt
 from PySide6.QtGui import QIcon, QPixmap
-from PySide6.QtWidgets import QApplication, QHBoxLayout, QLabel, QSizePolicy, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QApplication, QHBoxLayout, QLabel, QSizePolicy, QTextEdit, QVBoxLayout, QWidget
 
 from os import PathLike
 from pathlib import Path
@@ -34,9 +34,9 @@ class CardWidget(QWidget):
         card_title.setMaximumHeight(60)
         card_title.setStyleSheet(CARD_TITLE_STYLE)
 
-        card_body = QLabel(content)
+        card_body = QTextEdit(content)
+        card_body.setReadOnly(True)
         card_body.setMaximumWidth(500)
-        card_body.setWordWrap(True)
         card_body.setStyleSheet(CARD_BODY_STYLE)
 
         card_layout = QVBoxLayout()
@@ -59,17 +59,17 @@ class CardImageWidget(QWidget):
         card_title.setMaximumHeight(60)
         card_title.setStyleSheet(CARD_TITLE_STYLE)
 
-        content = QLabel(content)
-        content.setMaximumWidth(500)
-        content.setWordWrap(True)
-        content.setStyleSheet(CARD_BODY_STYLE)
+        card_body = QTextEdit(content)
+        card_body.setReadOnly(True)
+        card_body.setMaximumWidth(500)
+        card_body.setStyleSheet(CARD_BODY_STYLE)
 
         image_label = QLabel()
         image_label.setPixmap(QPixmap(image_path))
         image_label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
 
         card_body_layout = QHBoxLayout()
-        card_body_layout.addWidget(content)
+        card_body_layout.addWidget(card_body)
         card_body_layout.addWidget(image_label)
 
         card_layout = QVBoxLayout()
