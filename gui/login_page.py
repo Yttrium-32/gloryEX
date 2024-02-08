@@ -120,7 +120,7 @@ class LoginPage(QWidget):
         }
 
         try:
-            response = requests.post(API_URL + "/users/", data=json.dumps(payload))
+            response = requests.post(API_URL + "/users/create/", data=json.dumps(payload))
             json_data = json.loads(response.text)
             print(f"{json_data=}")
         except requests.exceptions.ConnectionError:
