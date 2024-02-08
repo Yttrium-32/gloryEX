@@ -1,4 +1,5 @@
-from PySide6.QtWidgets import QApplication, QWidget
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QApplication, QHBoxLayout, QLabel, QVBoxLayout, QWidget
 
 from pathlib import Path
 import requests, json
@@ -14,7 +15,17 @@ class SkillsPage(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Skills Page")
-        SkillsPage.get_skills_list()
+        skills_list = SkillsPage.get_skills_list()
+
+        no_entries_label = QLabel("No skills found")
+        no_entries_label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
+
+        if skills_list == []:
+            mainV_layout = QVBoxLayout()
+            mainH_layout = QHBoxLayout()
+            mainH_layout.addWidget(no_entries_label)
+            mainV_layout.addLayout(mainH_layout)
+            self.setLayout(mainV_layout)
 
     def get_skills_list():
         if TOKENS_FILE_PATH.is_file():
@@ -23,8 +34,9 @@ class SkillsPage(QWidget):
                 user_id: int = credentials["id"]
                 try:
                     response = requests.get(API_URL + f"/users/{user_id}/get_skill")
-                    json_data = json.loads(response.text)
+                    json_data: list[dict] = json.loads(response.text)
                     print(f"{json_data=}")
+                    return json_data
                 except requests.exceptions.ConnectionError:
                     print("Api not running")
         else:
