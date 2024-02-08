@@ -98,13 +98,16 @@ class LoginPage(QWidget):
             "password": password
         }
 
-        response = requests.post(API_URL + "/users/verify/", data=json.dumps(payload))
-        json_data = json.loads(response.text)
-        print(f"{json_data=}")
+        try:
+            response = requests.post(API_URL + "/users/verify/", data=json.dumps(payload))
+            json_data = json.loads(response.text)
+            print(f"{json_data=}")
 
-        if json_data["detail"] == "Login success":
-            with open("token.json", "w") as token_file:
-                json.dump(json_data, token_file)
+            if response.status_code == 200:
+                with open("token.json", "w") as token_file:
+                    json.dump(json_data, token_file)
+        except requests.exceptions.ConnectionError:
+            print("Api not running")
 
     def send_register_request(self):
         password = self.password_input.text()
@@ -116,9 +119,12 @@ class LoginPage(QWidget):
             "password": password
         }
 
-        response = requests.post(API_URL + "/users/", data=json.dumps(payload))
-        json_data = json.loads(response.text)
-        print(f"{json_data=}")
+        try:
+            response = requests.post(API_URL + "/users/", data=json.dumps(payload))
+            json_data = json.loads(response.text)
+            print(f"{json_data=}")
+        except requests.exceptions.ConnectionError:
+            print("Api not running")
 
 
 if __name__ == "__main__":
