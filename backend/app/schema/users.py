@@ -15,6 +15,11 @@ class UserPublic(UserBase):
     class Config:
         from_attributes = True
 
+class UserVerifySuccess(UserBase):
+    id: int
+    class Config:
+        from_attributes = True
+
 class UserRequestDetails(BaseModel):
     username: str
     password: str

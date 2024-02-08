@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from app.schema.users import UserPublic, UserCreate, UserRequestDetails
+from app.schema.users import UserPublic, UserCreate, UserRequestDetails, UserVerifySuccess
 from ..dependencies import get_db
 from .. import crud
 
@@ -17,11 +17,11 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Username is already in use")
     return crud.create_user(db=db, user=user)
 
-@router.post("/users/verify", tags=["users"])
+@router.post("/users/verify", response_model=UserVerifySuccess, tags=["users"])
 def verify_user_login(user: UserRequestDetails, db: Session = Depends(get_db)):
     is_verified = crud.verify_user_login(db=db, username=user.username, password=user.password)
     if is_verified:
-        return {"detail": "Login success"}
+        return is_verified
     else:
         raise HTTPException(status_code=400, detail="Incorrect password")
 

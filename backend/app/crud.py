@@ -31,7 +31,7 @@ def verify_user_login(*, db: Session, username: str, password: str):
     except VerifyMismatchError:
         return False
 
-    return True
+    return user
 
 def get_skills_by_user_id(*, db: Session, user_id: int):
     return db.query(models.Skills).filter(models.Skills.user_id == user_id).all()
