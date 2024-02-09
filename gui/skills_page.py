@@ -1,5 +1,6 @@
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QApplication, QGridLayout, QLabel, QScrollArea, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QApplication, QGridLayout, QLabel
+from PySide6.QtWidgets import QScrollArea, QVBoxLayout, QWidget
 
 from pathlib import Path
 import requests, json
@@ -20,10 +21,11 @@ class SkillsPage(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Skills Page")
+        self.setMinimumSize(400, 300)
         skills_list = SkillsPage.get_skills_list()
 
-        if skills_list == []:
-            no_entries_label = QLabel("No skills found")
+        if skills_list == [] or skills_list is None:
+            no_entries_label = QLabel("No skills found\nor\nAPI not running")
             no_entries_label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
             main_layout = QVBoxLayout()
             main_layout.addWidget(no_entries_label)
@@ -81,10 +83,16 @@ class SkillsPage(QWidget):
                 return None
 
     def clean_json_data(json_data: list[dict]) -> list[dict]:
+        # TODO: Remove hard coded path for images
+        if __name__ == "__main__":
+            backend_path = "../backend/"
+        else:
+            backend_path = "backend/"
         for entry in json_data:
             del entry["id"], entry["user_id"]
             if entry["certificate_image_path"] is not None:
-                entry["image_path"] = "backend/" + entry.pop("certificate_image_path")
+                new_image_path = backend_path + entry.pop("certificate_image_path")
+                entry["image_path"] = Path(new_image_path).resolve()
             else:
                 del entry["certificate_image_path"]
 
