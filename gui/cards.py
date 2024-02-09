@@ -21,32 +21,7 @@ CARD_BODY_STYLE = """
 """
 
 class CardWidget(QWidget):
-    def __init__(self, title: str, content: str) -> None:
-        super().__init__()
-        self.setWindowTitle("Text Card")
-        self.setWindowIcon(QIcon("../assets/logo_32x32.png"))
-        self.setMinimumSize(QSize(300, 300))
-        self.setMaximumSize(QSize(500, 500))
-
-        card_title = QLabel(title)
-        card_title.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
-        card_title.setAlignment(Qt.AlignCenter)
-        card_title.setMaximumHeight(60)
-        card_title.setStyleSheet(CARD_TITLE_STYLE)
-
-        card_body = QTextEdit(content)
-        card_body.setReadOnly(True)
-        card_body.setMaximumWidth(500)
-        card_body.setStyleSheet(CARD_BODY_STYLE)
-
-        card_layout = QVBoxLayout()
-        card_layout.addWidget(card_title)
-        card_layout.addWidget(card_body)
-
-        self.setLayout(card_layout)
-
-class CardImageWidget(QWidget):
-    def __init__(self, title: str, content: str, image_path: PathLike):
+    def __init__(self, title: str, description: str, image_path: PathLike | None = None):
         super().__init__()
         self.setWindowTitle("Text Card with Image")
         self.setWindowIcon(QIcon("../assets/logo_32x32.png"))
@@ -59,18 +34,20 @@ class CardImageWidget(QWidget):
         card_title.setMaximumHeight(60)
         card_title.setStyleSheet(CARD_TITLE_STYLE)
 
-        card_body = QTextEdit(content)
+        card_body = QTextEdit(description)
         card_body.setReadOnly(True)
         card_body.setMaximumWidth(500)
         card_body.setStyleSheet(CARD_BODY_STYLE)
 
-        image_label = QLabel()
-        image_label.setPixmap(QPixmap(image_path))
-        image_label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
 
         card_body_layout = QHBoxLayout()
         card_body_layout.addWidget(card_body)
-        card_body_layout.addWidget(image_label)
+
+        if image_path is not None:
+            image_label = QLabel()
+            image_label.setPixmap(QPixmap(image_path))
+            image_label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
+            card_body_layout.addWidget(image_label)
 
         card_layout = QVBoxLayout()
 
@@ -88,7 +65,7 @@ if __name__ == "__main__":
     card_widget = CardWidget("Test Title", body)
     card_widget.show()
 
-    image_card_widget = CardImageWidget("Test Title", body, image_path.resolve())
+    image_card_widget = CardWidget("Test Title", body, image_path.resolve())
     image_card_widget.show()
 
     app.exec()
