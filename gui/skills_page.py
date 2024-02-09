@@ -27,7 +27,7 @@ class SkillsPage(QWidget):
             mainV_layout.addLayout(mainH_layout)
             self.setLayout(mainV_layout)
 
-    def get_skills_list():
+    def get_skills_list() -> list[dict] | None:
         if TOKENS_FILE_PATH.is_file():
             with open(str(TOKENS_FILE_PATH.resolve()), "r") as tokens_file:
                 credentials = json.load(tokens_file)
@@ -36,11 +36,21 @@ class SkillsPage(QWidget):
                     response = requests.get(API_URL + f"/users/{user_id}/get_skill")
                     json_data: list[dict] = json.loads(response.text)
                     print(f"{json_data=}")
+
+                    for entry in json_data:
+                        del entry["id"], entry["user_id"]
+                        if entry["certificate_image_path"] is not None:
+                            entry["image_path"] = "backend/" + entry.pop("certificate_image_path")
+                        else:
+                            del entry["certificate_image_path"]
+
+                    print(f"cleaned_json_data={json_data}")
                     return json_data
                 except requests.exceptions.ConnectionError:
                     print("Api not running")
+                    return None
         else:
-            print("Not found")
+            print("Not logged in")
             return None
 
 if __name__ == "__main__":
@@ -48,3 +58,4 @@ if __name__ == "__main__":
     skills_page = SkillsPage()
     skills_page.show()
     app.exec()
+

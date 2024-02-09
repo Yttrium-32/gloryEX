@@ -44,7 +44,7 @@ class MainWindow(QMainWindow):
 
         main_layout = QHBoxLayout()
         main_layout.addWidget(stacked_widget)
-        main_layout.setAlignment(Qt.AlignCenter)
+        main_layout.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
 
         main_widget = QWidget()
         main_widget.setLayout(main_layout)
