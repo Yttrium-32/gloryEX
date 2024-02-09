@@ -1,6 +1,6 @@
 from PySide6.QtCore import QSize, Qt
 from PySide6.QtGui import QIcon, QPixmap
-from PySide6.QtWidgets import QApplication, QHBoxLayout, QLabel, QSizePolicy, QTextEdit, QVBoxLayout, QWidget
+from PySide6.QtWidgets import QApplication, QHBoxLayout, QLabel, QSizePolicy, QVBoxLayout, QWidget
 
 from os import PathLike
 from pathlib import Path
@@ -25,7 +25,7 @@ class CardWidget(QWidget):
         super().__init__()
         self.setWindowTitle("Text Card with Image")
         self.setWindowIcon(QIcon("../assets/logo_32x32.png"))
-        self.setMinimumSize(QSize(300, 300))
+        self.setMinimumSize(QSize(300, 0))
         self.setMaximumSize(QSize(500, 500))
 
         card_title = QLabel(title)
@@ -34,11 +34,10 @@ class CardWidget(QWidget):
         card_title.setMaximumHeight(60)
         card_title.setStyleSheet(CARD_TITLE_STYLE)
 
-        card_body = QTextEdit(description)
-        card_body.setReadOnly(True)
-        card_body.setMaximumWidth(500)
+        card_body = QLabel(description)
+        card_body.setAlignment(Qt.AlignCenter)
+        card_body.setWordWrap(True)
         card_body.setStyleSheet(CARD_BODY_STYLE)
-
 
         card_body_layout = QHBoxLayout()
         card_body_layout.addWidget(card_body)
