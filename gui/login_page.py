@@ -7,16 +7,17 @@ from uuid import uuid4
 import requests, json
 
 try:
-    from gui.config import LOGO_PATH, API_URL
+    from gui.config import LOGO_PATH, API_URL, TOKENS_FILE_PATH
     from gui.config import LOGO_STYLE, WELCOME_SIGN_STYLE
     from gui.config import INPUT_FIELD_STYLE, BUTTON_STYLE
 except ImportError:
-    from config import LOGO_PATH, API_URL
+    from config import LOGO_PATH, API_URL, TOKENS_FILE_PATH
     from config import LOGO_STYLE, WELCOME_SIGN_STYLE
     from config import INPUT_FIELD_STYLE, BUTTON_STYLE
 
 if __name__ == "__main__":
     LOGO_PATH = ".." / LOGO_PATH
+    TOKENS_FILE_PATH = ".." / TOKENS_FILE_PATH
 
 class LoginPage(QWidget):
     def __init__(self):
@@ -85,7 +86,7 @@ class LoginPage(QWidget):
             print(f"{json_data=}")
 
             if response.status_code == 200:
-                with open("data/token.json", "w") as token_file:
+                with open(TOKENS_FILE_PATH, "w") as token_file:
                     json.dump(json_data, token_file)
         except requests.exceptions.ConnectionError:
             print("Api not running")
@@ -106,7 +107,6 @@ class LoginPage(QWidget):
             print(f"{json_data=}")
         except requests.exceptions.ConnectionError:
             print("Api not running")
-
 
 if __name__ == "__main__":
     app = QApplication()

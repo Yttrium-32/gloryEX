@@ -1,5 +1,5 @@
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QApplication, QGridLayout, QLabel
+from PySide6.QtWidgets import QApplication, QGridLayout, QLabel, QPushButton
 from PySide6.QtWidgets import QScrollArea, QVBoxLayout, QWidget
 
 from pathlib import Path
@@ -22,46 +22,28 @@ class SkillsPage(QWidget):
         super().__init__()
         self.setWindowTitle("Skills Page")
         self.setMinimumSize(400, 300)
-        skills_list = SkillsPage.get_skills_list()
 
-        if skills_list == [] or skills_list is None:
-            no_entries_label = QLabel("No skills found\nor\nAPI not running")
-            no_entries_label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
-            main_layout = QVBoxLayout()
-            main_layout.addWidget(no_entries_label)
-            main_layout.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
-            self.setLayout(main_layout)
+        self.grid_layout = QGridLayout()
 
-        else:
-            grid_layout = QGridLayout()
+        self.grid_widget = QWidget()
+        self.grid_widget.setLayout(self.grid_layout)
+        
+        self.scroll_area = QScrollArea()
+        self.scroll_area.setWidgetResizable(True)
+        self.scroll_area.setWidget(self.grid_widget)
 
-            # Add two widgets per column
-            row, col = 0, 0
-            for entry in skills_list:
-                card_widget = CardWidget(**entry)
-                grid_layout.addWidget(card_widget, row, col)
-                # Increment col for every widget added
-                col += 1
+        update_button = QPushButton("Update cards")
+        update_button.clicked.connect(self.add_widget_contents)
 
-                # Reset col after adding two widgets
-                if col == 2:
-                    # Go to next row after two widgets
-                    row += 1
-                    col = 0
+        main_layout = QVBoxLayout()
+        main_layout.addWidget(update_button)
+        main_layout.addWidget(self.scroll_area)
 
-            grid_widget = QWidget()
-            grid_widget.setLayout(grid_layout)
-            
-            scroll_area = QScrollArea()
-            scroll_area.setWidgetResizable(True)
-            scroll_area.setWidget(grid_widget)
+        self.add_widget_contents()
 
-            main_layout = QVBoxLayout()
-            main_layout.addWidget(scroll_area)
+        self.setLayout(main_layout)
 
-            self.setLayout(main_layout)
-
-    def get_skills_list() -> list[dict] | None:
+    def get_skills_list(self) -> list[dict] | None:
         if not TOKENS_FILE_PATH.is_file():
             print("Not logged in")
             return None
@@ -74,15 +56,16 @@ class SkillsPage(QWidget):
                 json_data: list[dict] = json.loads(response.text)
                 print(f"{json_data=}")
 
-                json_data = SkillsPage.clean_json_data(json_data)
+                json_data = self.clean_json_data(json_data)
 
                 print(f"cleaned_json_data={json_data}")
                 return json_data
+
             except requests.exceptions.ConnectionError:
                 print("Api not running")
                 return None
 
-    def clean_json_data(json_data: list[dict]) -> list[dict]:
+    def clean_json_data(self, json_data: list[dict]) -> list[dict]:
         # TODO: Remove hard coded path for images
         if __name__ == "__main__":
             backend_path = "../backend/"
@@ -97,7 +80,35 @@ class SkillsPage(QWidget):
                 del entry["certificate_image_path"]
 
         return json_data
-        
+
+    def clear_grid_layout(self):
+        # Remove existing widgets from the layout
+        for i in reversed(range(self.grid_layout.count())):
+            self.grid_layout.itemAt(i).widget().setParent(None)
+
+    def add_widget_contents(self):
+        self.skills_list = self.get_skills_list()
+        self.clear_grid_layout()
+
+        if self.skills_list == [] or self.skills_list is None:
+            no_entries_label = QLabel("No skills found\nor\nAPI not running")
+            no_entries_label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
+            self.grid_layout.addWidget(no_entries_label, 0, 0)
+
+        else:
+            # Add two widgets per column
+            row, col = 0, 0
+            for entry in self.skills_list:
+                card_widget = CardWidget(**entry)
+                self.grid_layout.addWidget(card_widget, row, col)
+                # Increment col for every widget added
+                col += 1
+
+                # Reset col after adding two widgets
+                if col == 2:
+                    # Go to next row after two widgets
+                    row += 1
+                    col = 0
 
 if __name__ == "__main__":
     app = QApplication()

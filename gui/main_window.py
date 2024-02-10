@@ -27,11 +27,11 @@ class MainWindow(QMainWindow):
         self.addToolBar(Qt.LeftToolBarArea, tool_bar)
 
         login_page_action = QAction("Login", self)
-        login_page_action.triggered.connect(lambda: self.stacked_widget.setCurrentIndex(0))
+        login_page_action.triggered.connect(self.cycle_to_login_page)
         tool_bar.addAction(login_page_action)
 
         skills_page_action = QAction("Skills", self)
-        skills_page_action.triggered.connect(lambda: self.stacked_widget.setCurrentIndex(1))
+        skills_page_action.triggered.connect(self.cycle_to_skills_page)
         tool_bar.addAction(skills_page_action)
 
         login_widget = LoginPage()
@@ -50,6 +50,14 @@ class MainWindow(QMainWindow):
         main_widget.setLayout(main_layout)
 
         self.setCentralWidget(main_widget)
+
+    def cycle_to_skills_page(self):
+        self.stacked_widget.setCurrentIndex(1)
+        self.stacked_widget.update()
+
+    def cycle_to_login_page(self):
+        self.stacked_widget.setCurrentIndex(0)
+        self.stacked_widget.update()
 
 if __name__ == "__main__":
     app = QApplication()
