@@ -1,4 +1,3 @@
-#!/bin/python
 from PySide6.QtCore import QSize, Qt
 from PySide6.QtGui import QAction, QIcon
 from PySide6.QtWidgets import QApplication, QHBoxLayout, QMainWindow
@@ -29,21 +28,24 @@ class MainWindow(QMainWindow):
         tool_bar.setFloatable(False)
         self.addToolBar(Qt.LeftToolBarArea, tool_bar)
 
-        login_page = QAction("Login", self)
-        tool_bar.addAction(login_page)
+        login_page_action = QAction("Login", self)
+        login_page_action.triggered.connect(lambda: self.stacked_widget.setCurrentIndex(0))
+        tool_bar.addAction(login_page_action)
 
-        skills_page = QAction("Skills", self)
-        tool_bar.addAction(skills_page)
+        skills_page_action = QAction("Skills", self)
+        skills_page_action.triggered.connect(lambda: self.stacked_widget.setCurrentIndex(1))
+        tool_bar.addAction(skills_page_action)
 
         login_widget = LoginPage()
         skills_widget = SkillsPage()
 
-        stacked_widget = QStackedWidget()
-        stacked_widget.addWidget(login_widget)
-        stacked_widget.addWidget(skills_widget)
+        self.stacked_widget = QStackedWidget()
+        self.stacked_widget.addWidget(login_widget)
+        self.stacked_widget.addWidget(skills_widget)
+        self.stacked_widget.setCurrentIndex(0)
 
         main_layout = QHBoxLayout()
-        main_layout.addWidget(stacked_widget)
+        main_layout.addWidget(self.stacked_widget)
         main_layout.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
 
         main_widget = QWidget()
