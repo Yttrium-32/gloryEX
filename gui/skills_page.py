@@ -12,8 +12,6 @@ except ImportError:
     from cards import CardWidget
     from config import API_URL, TOKENS_FILE_PATH
 
-API_URL = "http://0.0.0.0:8000"
-
 if __name__ == "__main__":
     TOKENS_FILE_PATH = ".." / TOKENS_FILE_PATH
 
