@@ -8,9 +8,9 @@ from uuid import uuid4
 import requests, json
 
 if __name__ == "__main__":
-    LOGO_PATH = Path("../assets/logo_128x128.png")
+    LOGO_PATH = Path("../data/assets/logo_128x128.png")
 else:
-    LOGO_PATH = Path("assets/logo_128x128.png")
+    LOGO_PATH = Path("data/assets/logo_128x128.png")
 
 API_URL = "http://0.0.0.0:8000"
 
@@ -104,7 +104,7 @@ class LoginPage(QWidget):
             print(f"{json_data=}")
 
             if response.status_code == 200:
-                with open("token.json", "w") as token_file:
+                with open("data/token.json", "w") as token_file:
                     json.dump(json_data, token_file)
         except requests.exceptions.ConnectionError:
             print("Api not running")

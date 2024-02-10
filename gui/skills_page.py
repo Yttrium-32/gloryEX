@@ -13,9 +13,9 @@ except ImportError:
 API_URL = "http://0.0.0.0:8000"
 
 if __name__ == "__main__":
-    TOKENS_FILE_PATH = Path("../token.json")
+    TOKENS_FILE_PATH = Path("../data/token.json")
 else:
-    TOKENS_FILE_PATH = Path("token.json")
+    TOKENS_FILE_PATH = Path("data/token.json")
 
 class SkillsPage(QWidget):
     def __init__(self):

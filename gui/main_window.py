@@ -12,7 +12,7 @@ except ImportError:
 
 from pathlib import Path
 
-LOGO_PATH = Path("assets/logo_32x32.png")
+LOGO_PATH = Path("data/assets/logo_32x32.png")
 
 class MainWindow(QMainWindow):
     def __init__(self, app):
