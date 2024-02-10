@@ -30,11 +30,7 @@ class SkillsPage(QWidget):
         self.scroll_area.setWidgetResizable(True)
         self.scroll_area.setWidget(self.grid_widget)
 
-        update_button = QPushButton("Update cards")
-        update_button.clicked.connect(self.add_widget_contents)
-
         main_layout = QVBoxLayout()
-        main_layout.addWidget(update_button)
         main_layout.addWidget(self.scroll_area)
 
         self.add_widget_contents()
