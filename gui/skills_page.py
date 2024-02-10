@@ -7,15 +7,15 @@ import requests, json
 
 try:
     from gui.cards import CardWidget
+    from gui.config import API_URL, TOKENS_FILE_PATH
 except ImportError:
     from cards import CardWidget
+    from config import API_URL, TOKENS_FILE_PATH
 
 API_URL = "http://0.0.0.0:8000"
 
 if __name__ == "__main__":
-    TOKENS_FILE_PATH = Path("../data/token.json")
-else:
-    TOKENS_FILE_PATH = Path("data/token.json")
+    TOKENS_FILE_PATH = ".." / TOKENS_FILE_PATH
 
 class SkillsPage(QWidget):
     def __init__(self):

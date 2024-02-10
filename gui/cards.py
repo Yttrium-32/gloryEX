@@ -3,22 +3,11 @@ from PySide6.QtGui import QIcon, QPixmap
 from PySide6.QtWidgets import QApplication, QHBoxLayout, QLabel, QSizePolicy, QVBoxLayout, QWidget
 
 from os import PathLike
-from pathlib import Path
 
-CARD_TITLE_STYLE = """
-    background-color: #8e44ad;
-    border-radius: 10px;
-    color: #fff;
-    font-size: 18pt;
-    font-weight: bold;
-"""
-
-CARD_BODY_STYLE = """
-    padding: 15px;
-    border-radius: 10px;
-    background-color: #9b59b6;
-    color: #333;
-"""
+try:
+    from gui.config import CARD_BODY_STYLE, CARD_TITLE_STYLE
+except ImportError:
+    from config import CARD_BODY_STYLE, CARD_TITLE_STYLE, LOGO_PATH
 
 class CardWidget(QWidget):
     def __init__(self, title: str, description: str, image_path: PathLike | None = None):
@@ -59,7 +48,7 @@ if __name__ == "__main__":
     app = QApplication()
 
     body = "This is a long a complex body used for testing in a card body."
-    image_path = Path("../assets/logo_128x128.png")
+    image_path = ".." / LOGO_PATH
 
     card_widget = CardWidget("Test Title", body)
     card_widget.show()

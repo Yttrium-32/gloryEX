@@ -6,13 +6,11 @@ from PySide6.QtWidgets import QStackedWidget, QToolBar, QWidget
 try:
     from gui.login_page import LoginPage
     from gui.skills_page import SkillsPage
+    from gui.config import LOGO_PATH
 except ImportError:
     from login_page import LoginPage
     from skills_page import SkillsPage
-
-from pathlib import Path
-
-LOGO_PATH = Path("data/assets/logo_32x32.png")
+    from config import LOGO_PATH
 
 class MainWindow(QMainWindow):
     def __init__(self, app):

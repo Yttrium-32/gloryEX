@@ -3,39 +3,20 @@ from PySide6.QtGui import QIcon, QPixmap
 from PySide6.QtWidgets import QApplication, QGridLayout, QLabel, QLineEdit, QSizePolicy, QVBoxLayout
 from PySide6.QtWidgets import QPushButton, QWidget, QHBoxLayout
 
-from pathlib import Path
 from uuid import uuid4
 import requests, json
 
+try:
+    from gui.config import LOGO_PATH, API_URL
+    from gui.config import LOGO_STYLE, WELCOME_SIGN_STYLE
+    from gui.config import INPUT_FIELD_STYLE, BUTTON_STYLE
+except ImportError:
+    from config import LOGO_PATH, API_URL
+    from config import LOGO_STYLE, WELCOME_SIGN_STYLE
+    from config import INPUT_FIELD_STYLE, BUTTON_STYLE
+
 if __name__ == "__main__":
-    LOGO_PATH = Path("../data/assets/logo_128x128.png")
-else:
-    LOGO_PATH = Path("data/assets/logo_128x128.png")
-
-API_URL = "http://0.0.0.0:8000"
-
-LOGO_STYLE = """
-    padding: 30px;
-    margin-bottom: 25px;
-"""
-
-WELCOME_SIGN_STYLE = """
-  color: #8e44ad;
-  font-size: 24px;
-"""
-
-BUTTON_STYLE = """
-  background-color: #8e44ad;
-  color: white;
-  border: none;
-  padding: 10px;
-  border-radius: 5px;
-  margin-right: 5px;
-"""
-
-INPUT_FIELD_STYLE = """
-    border: 1px solid #8e44ad;
-"""
+    LOGO_PATH = ".." / LOGO_PATH
 
 class LoginPage(QWidget):
     def __init__(self):
