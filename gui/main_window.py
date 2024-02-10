@@ -34,12 +34,12 @@ class MainWindow(QMainWindow):
         skills_page_action.triggered.connect(self.cycle_to_skills_page)
         tool_bar.addAction(skills_page_action)
 
-        login_widget = LoginPage()
-        skills_widget = SkillsPage()
+        self.login_widget = LoginPage()
+        self.skills_widget = SkillsPage()
 
         self.stacked_widget = QStackedWidget()
-        self.stacked_widget.addWidget(login_widget)
-        self.stacked_widget.addWidget(skills_widget)
+        self.stacked_widget.addWidget(self.login_widget)
+        self.stacked_widget.addWidget(self.skills_widget)
         self.stacked_widget.setCurrentIndex(0)
 
         main_layout = QHBoxLayout()
@@ -53,11 +53,10 @@ class MainWindow(QMainWindow):
 
     def cycle_to_skills_page(self):
         self.stacked_widget.setCurrentIndex(1)
-        self.stacked_widget.update()
+        self.skills_widget.add_widget_contents()
 
     def cycle_to_login_page(self):
         self.stacked_widget.setCurrentIndex(0)
-        self.stacked_widget.update()
 
 if __name__ == "__main__":
     app = QApplication()
