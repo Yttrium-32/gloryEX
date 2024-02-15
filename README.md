@@ -8,7 +8,7 @@ Eventually down the line a feature to auto-generate a resume will be added.
     <img src=./screenshots/cards.png>
 </div>
 
-## Backend
+## Backend (API)
 ### With docker
 
 - Setup docker: https://docs.docker.com/compose/install/
@@ -34,7 +34,7 @@ Eventually down the line a feature to auto-generate a resume will be added.
     uvicorn app.main:app --reload --workers 1 --host 0.0.0.0 --port 8000
     ```
 
-## Frontend
+## GUI
 - Install all dependencies:
     ```
     python -m venv venv
